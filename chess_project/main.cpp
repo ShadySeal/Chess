@@ -37,6 +37,7 @@ int main()
 	for (Siirto s : siirrot)
 	{
 		// tulosta siirron s tiedot
+		//ndndnd
 	}
 
 	//tulosta_lauta(asema);
