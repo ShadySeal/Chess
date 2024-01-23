@@ -12,25 +12,34 @@ void Asema::tyhjenna()
 void Asema::anna_tornin_raakasiirrot(int rivi, int linja, int pelaaja,
 	std::vector<Siirto>& siirrot)
 {
+	// Ylös (up)
 	int rivi_nyt = rivi;
 	int linja_nyt = linja;
 
 	while (true)
 	{
 		rivi_nyt--;
+
+		// Ulkona laudalta?
 		if (rivi_nyt < 0)
+		{
 			break;
+		}
+
+		// Tyhjä ruutu?
 		if (_lauta[rivi_nyt][linja_nyt] == NA)
 		{
 			siirrot.push_back(Siirto(rivi, linja, rivi_nyt, linja_nyt));
 			continue;
 		}
 
+		// Törmätään omaan nappulaan?
 		if (nappulan_vari(_lauta[rivi][linja_nyt]) == pelaaja)
 		{
 			break;
 		}
 
+		// Lyödään vastustajan nappula.
 		siirrot.push_back(Siirto(rivi, linja, rivi_nyt, linja_nyt));
 		break;
 	}
