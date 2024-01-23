@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
+#include <iostream>
 
+using namespace std;
 
 // Kuvaa aseman muutosta.
 class Siirto
@@ -10,11 +12,12 @@ public:
 		_a_r(a_r), _a_l(a_l), _l_r(l_r), _l_l(l_l)
 	{}
 
-	// LÄKSY
-	// Tee konstruktori, jonka avulla siirto-olio alustetaan
-	// annetusta merkkijonosta, esim. "e2e4" tai "g8f6".
-
 	Siirto(const std::string& s);
+
+	void tulosta() const
+	{
+		cout << "Sallitut siirrot: (" << _l_r << ", " << _l_l << ")";
+	}
 
 private:
 	int _a_r; // siirron alkuruudun rivi

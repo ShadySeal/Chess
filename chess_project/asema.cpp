@@ -43,6 +43,104 @@ void Asema::anna_tornin_raakasiirrot(int rivi, int linja, int pelaaja,
 		siirrot.push_back(Siirto(rivi, linja, rivi_nyt, linja_nyt));
 		break;
 	}
+
+	// Alas (down)
+	rivi_nyt = rivi;
+	linja_nyt = linja;
+
+	while (true)
+	{
+		rivi_nyt++;
+
+		// Ulkona laudalta?
+		if (rivi_nyt < 0)
+		{
+			break;
+		}
+
+		// Tyhjä ruutu?
+		if (_lauta[rivi_nyt][linja_nyt] == NA)
+		{
+			siirrot.push_back(Siirto(rivi, linja, rivi_nyt, linja_nyt));
+			continue;
+		}
+
+		// Törmätään omaan nappulaan?
+		if (nappulan_vari(_lauta[rivi][linja_nyt]) == pelaaja)
+		{
+			break;
+		}
+
+		// Lyödään vastustajan nappula.
+		siirrot.push_back(Siirto(rivi, linja, rivi_nyt, linja_nyt));
+		break;
+	}
+
+	// Oikea (right)
+	rivi_nyt = rivi;
+	linja_nyt = linja;
+
+	while (true)
+	{
+		linja_nyt++;
+
+		// Ulkona laudalta?
+		if (linja_nyt > 7)
+		{
+			break;
+		}
+
+		// Tyhjä ruutu?
+		if (_lauta[rivi_nyt][linja_nyt] == NA)
+		{
+			siirrot.push_back(Siirto(rivi, linja, rivi_nyt, linja_nyt));
+			continue;
+		}
+
+		// Törmätään omaan nappulaan?
+		if (nappulan_vari(_lauta[rivi][linja_nyt]) == pelaaja)
+		{
+			break;
+		}
+
+		// Lyödään vastustajan nappula.
+		siirrot.push_back(Siirto(rivi, linja, rivi_nyt, linja_nyt));
+
+		break;
+	}
+
+	// Vasen (vasen)
+	rivi_nyt = rivi;
+	linja_nyt = linja;
+
+	while (true)
+	{
+		linja_nyt--;
+
+		// Ulkona laudalta?
+		if (linja_nyt < 0)
+		{
+			break;
+		}
+
+		// Tyhjä ruutu?
+		if (_lauta[rivi_nyt][linja_nyt] == NA)
+		{
+			siirrot.push_back(Siirto(rivi, linja, rivi_nyt, linja_nyt));
+			continue;
+		}
+
+		// Törmätään omaan nappulaan?
+		if (nappulan_vari(_lauta[rivi][linja_nyt]) == pelaaja)
+		{
+			break;
+		}
+
+		// Lyödään vastustajan nappula.
+		siirrot.push_back(Siirto(rivi, linja, rivi_nyt, linja_nyt));
+
+		break;
+	}
 }
 
 // Tekee annetun siirron laudalla. Voidaan olettaa, että

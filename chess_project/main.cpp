@@ -30,18 +30,17 @@ int main()
 	Asema asema;
 	vector<Siirto> siirrot;
 
-	asema.tyhjenna();
-	asema._lauta[3][4] = wR;
-	asema.anna_tornin_raakasiirrot(3, 4, VALKEA, siirrot);
+	asema.anna_tornin_raakasiirrot(1, 3, MUSTA, siirrot);
+
+	tulosta_lauta(asema);
 
 	for (Siirto s : siirrot)
 	{
 		// tulosta siirron s tiedot
-		//ndndnd
+		s.tulosta();
+		cout << endl;
 	}
 
-	//tulosta_lauta(asema);
-	//
 	//cout << endl;
 
 	//string siirra = "e2e4";
