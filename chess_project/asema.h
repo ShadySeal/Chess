@@ -11,9 +11,13 @@ public:
 	void tyhjenna();
 	void tee_siirto(const Siirto& s);
 
-	// LÄKSY
-	// Tulosta lauta ascii-grafiikkana.
+	// Tulostaa shakkilaudan ascii-grafiikkana.
 	void tulosta() const;
+
+	void lisaa_siirto(int rivi, int linja, int rivi_nyt, int linja_nyt,
+		std::vector<Siirto>& siirrot, int pelaaja);
+	void anna_tornin_raakasiirrot(int rivi, int linja, int pelaaja,
+		std::vector<Siirto>& siirrot);
 
 	// Laudan nappulat. Indeksointi [rivi][linja], esim.
 	//
@@ -21,9 +25,6 @@ public:
 	// [7][0] : vasen alanurkka ("a1")
 	// [7][7] : oikea alanurkka ("h1")
 	//
-
-	void anna_tornin_raakasiirrot(int rivi, int linja, int pelaaja,
-		std::vector<Siirto>& siirrot);
 
 	int _lauta[8][8] = {
 		{ bR, bN, bB, bQ, bK, bB, bN, bR },

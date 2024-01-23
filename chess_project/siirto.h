@@ -14,10 +14,7 @@ public:
 
 	Siirto(const std::string& s);
 
-	void tulosta() const
-	{
-		cout << "Sallitut siirrot: (" << _l_r << ", " << _l_l << ")";
-	}
+	void tulosta() const;
 
 private:
 	int _a_r; // siirron alkuruudun rivi
