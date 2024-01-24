@@ -19,6 +19,10 @@ public:
 	void anna_tornin_raakasiirrot(int rivi, int linja, int pelaaja,
 		std::vector<Siirto>& siirrot);
 
+	// Anna nappulan mahdolliset raaksiirrot tiettyyn suuntaan.
+	void anna_raakasiirrot_suunnassa(int rivi, int linja, int rivi_muutos, int linja_muutos,
+		int pelaaja, int max_askeleet, bool voi_lyoda, bool pakko_lyoda, std::vector<Siirto>& siirrot) const;
+
 	// Laudan nappulat. Indeksointi [rivi][linja], esim.
 	//
 	// [0][0] : vasen ylänurkka ("a8")

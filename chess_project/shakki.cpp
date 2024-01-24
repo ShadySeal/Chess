@@ -12,3 +12,15 @@ int nappulan_vari(int nappula)
 		break;
 	}
 }
+
+int vastustaja(int pelaaja)
+{
+	if (pelaaja == VALKEA)
+	{
+		return MUSTA;
+	}
+	else
+	{
+		return VALKEA;
+	}
+}

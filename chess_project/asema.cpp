@@ -9,68 +9,57 @@ void Asema::tyhjenna()
 			_lauta[rivi][linja] = NA;
 }
 
-void Asema::lisaa_siirto(int rivi, int linja, int rivi_nyt, int linja_nyt,
-	std::vector<Siirto>& siirrot, int pelaaja)
+void Asema::anna_raakasiirrot_suunnassa(int rivi, int linja, int rivi_muutos, int linja_muutos, int pelaaja,
+	int max_askeleet, bool voi_lyoda, bool pakko_lyoda, std::vector<Siirto>& siirrot) const
 {
-	if (rivi_nyt < 0 || rivi_nyt >= 8 || linja_nyt < 0 || linja_nyt >= 8)
-	{
-		return;
-	}
+	// Ylös (up)
+	int rivi_nyt = rivi;
+	int linja_nyt = linja;
+	int askeleet = 0;
 
-	if (_lauta[rivi_nyt][linja_nyt] == NA)
+	while (askeleet < max_askeleet)
 	{
-		siirrot.push_back(Siirto(rivi, linja, rivi_nyt, linja_nyt));
-	}
-	else if (nappulan_vari(_lauta[rivi][linja_nyt]) != pelaaja)
-	{
-		siirrot.push_back(Siirto(rivi, linja, rivi_nyt, linja_nyt));
+		rivi_nyt+= rivi_muutos;
+		linja_nyt += linja_muutos;
+
+		if (rivi_nyt < 0 || rivi_nyt >= 8 || linja_nyt < 0 || linja_nyt >= 8)
+		{
+			return;
+		}
+
+		// Tyhjä ruutu?
+		if (_lauta[rivi_nyt][linja_nyt] == NA)
+		{
+			if (pakko_lyoda)
+			{
+				break;
+			}
+			siirrot.push_back(Siirto(rivi, linja, rivi_nyt, linja_nyt));
+			askeleet++;
+			continue;
+		}
+
+		// Törmätään omaan nappulaan?
+		if (nappulan_vari(_lauta[rivi_nyt][linja_nyt]) == pelaaja)
+			break;
+
+		// Lyödään vastustajan nappula.
+		if (voi_lyoda)
+		{
+			siirrot.push_back(Siirto(rivi, linja, rivi_nyt, linja_nyt));
+		}
+		break;
 	}
 }
 
 void Asema::anna_tornin_raakasiirrot(int rivi, int linja, int pelaaja,
 	std::vector<Siirto>& siirrot)
 {
-	// Ylös (up)
-	for (int rivi_nyt = rivi - 1; rivi_nyt >= 0; rivi_nyt--)
-	{
-		lisaa_siirto(rivi, linja, rivi_nyt, linja, siirrot, pelaaja);
-		if (_lauta[rivi_nyt][linja] != NA)
-		{
-			break;
-		}
-	}
-
-	// Alas (down)
-	for (int rivi_nyt = rivi + 1; rivi_nyt < 8; rivi_nyt++)
-	{
-		lisaa_siirto(rivi, linja, rivi_nyt, linja, siirrot, pelaaja);
-		if (_lauta[rivi_nyt][linja] != NA)
-		{
-			break;
-		}
-	}
-
-	// Oikea (right)
-	for (int linja_nyt = linja + 1; linja_nyt < 8; linja_nyt++)
-	{
-		lisaa_siirto(rivi, linja, rivi, linja_nyt, siirrot, pelaaja);
-		if (_lauta[rivi][linja_nyt] != NA)
-		{
-			break;
-		}
-	}
-
-	// Vasen (left)
-	for (int linja_nyt = linja - 1; linja_nyt >= 0; linja_nyt--)
-	{
-		lisaa_siirto(rivi, linja, rivi, linja_nyt, siirrot, pelaaja);
-		if (_lauta[rivi][linja_nyt] != NA)
-		{
-			break;
-		}
-	}
+	anna_raakasiirrot_suunnassa(rivi, linja, -1, 0, pelaaja, 7, true, false, siirrot);
+	anna_raakasiirrot_suunnassa(rivi, linja, 1, 0, pelaaja, 7, true, false, siirrot);
+	anna_raakasiirrot_suunnassa(rivi, linja, 0, -1, pelaaja, 7, true, false, siirrot);
+	anna_raakasiirrot_suunnassa(rivi, linja, 0, 1, pelaaja, 7, true, false, siirrot);
 }
-
 
 // Tekee annetun siirron laudalla. Voidaan olettaa, että
 // siirto on laillinen.
@@ -84,6 +73,8 @@ void Asema::tee_siirto(const Siirto& s)
 
 	// Sijoitetaan loppuruutuun alkuperäinen nappula.
 	_lauta[s._l_r][s._l_l] = nappula;
+
+	_siirtovuoro = vastustaja(_siirtovuoro);
 }
 
 void Asema::tulosta() const
