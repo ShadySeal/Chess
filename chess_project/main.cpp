@@ -11,7 +11,9 @@ int main()
     // Initial position.
     Position position;
     vector<Move> moves;
-    position.generate_rook_moves(6, 3, BLACK, moves);
+    position._board[5][1] = bP;
+    position._board[5][3] = bP;
+    position.generate_pawn_moves(6, 2, WHITE, moves);
 
     position.print();
 

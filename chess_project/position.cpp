@@ -12,7 +12,6 @@ void Position::clear()
 void Position::generate_raw_moves_in_direction(int row, int col, int row_change, int col_change, int player,
     int max_steps, bool can_capture, bool must_capture, std::vector<Move>& moves) const
 {
-    // Up
     int current_row = row;
     int current_col = col;
     int steps = 0;
@@ -52,6 +51,56 @@ void Position::generate_raw_moves_in_direction(int row, int col, int row_change,
     }
 }
 
+void Position::generate_pawn_moves(int row, int col, int player,
+    std::vector<Move>& moves)
+{
+    if (player == WHITE)
+    {
+        if (row == 6)
+        {
+            generate_raw_moves_in_direction(row, col, -1, 0, player, 1, false, false, moves);
+            generate_raw_moves_in_direction(row, col, -2, 0, player, 1, false, false, moves);
+        }
+        else
+        {
+            generate_raw_moves_in_direction(row, col, -1, 0, player, 1, false, false, moves);
+        }
+
+        if (_board[row - 1][col - 1] != NA && piece_color(_board[row - 1][col - 1]) != player)
+        {
+            generate_raw_moves_in_direction(row, col, -1, -1, player, 1, true, false, moves);
+        }
+
+        if (_board[row - 1][col + 1] != NA && piece_color(_board[row - 1][col + 1]) != player)
+        {
+            generate_raw_moves_in_direction(row, col, -1, 1, player, 1, true, false, moves);
+        }
+    }
+
+    if (player == BLACK)
+    {
+        if (row == 6)
+        {
+            generate_raw_moves_in_direction(row, col, 1, 0, player, 1, false, false, moves);
+            generate_raw_moves_in_direction(row, col, 2, 0, player, 1, false, false, moves);
+        }
+        else
+        {
+            generate_raw_moves_in_direction(row, col, 1, 0, player, 1, false, false, moves);
+        }
+
+        if (_board[row + 1][col - 1] != NA && piece_color(_board[row + 1][col - 1]) != player)
+        {
+            generate_raw_moves_in_direction(row, col, 1, -1, player, 1, true, false, moves);
+        }
+
+        if (_board[row + 1][col + 1] != NA && piece_color(_board[row + 1][col + 1]) != player)
+        {
+            generate_raw_moves_in_direction(row, col, 1, 1, player, 1, true, false, moves);
+        }
+    }
+}
+
 void Position::generate_rook_moves(int row, int col, int player,
     std::vector<Move>& moves)
 {
@@ -60,6 +109,55 @@ void Position::generate_rook_moves(int row, int col, int player,
     generate_raw_moves_in_direction(row, col, 0, -1, player, 7, true, false, moves);
     generate_raw_moves_in_direction(row, col, 0, 1, player, 7, true, false, moves);
 }
+
+void Position::generate_bishop_moves(int row, int col, int player,
+    std::vector<Move>& moves)
+{
+    generate_raw_moves_in_direction(row, col, -1, -1, player, 7, true, false, moves);
+    generate_raw_moves_in_direction(row, col, -1, 1, player, 7, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 1, -1, player, 7, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 1, 1, player, 7, true, false, moves);
+}
+
+void Position::generate_knight_moves(int row, int col, int player,
+    std::vector<Move>& moves)
+{
+    generate_raw_moves_in_direction(row, col, -2, -1, player, 1, true, false, moves);
+    generate_raw_moves_in_direction(row, col, -1, -2, player, 1, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 1, -2, player, 1, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 2, -1, player, 1, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 2, 1, player, 1, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 1, 2, player, 1, true, false, moves);
+    generate_raw_moves_in_direction(row, col, -1, 2, player, 1, true, false, moves);
+    generate_raw_moves_in_direction(row, col, -2, 1, player, 1, true, false, moves);
+}
+
+void Position::generate_queen_moves(int row, int col, int player,
+    std::vector<Move>& moves)
+{
+    generate_raw_moves_in_direction(row, col, -1, -1, player, 7, true, false, moves);
+    generate_raw_moves_in_direction(row, col, -1, 0, player, 7, true, false, moves);
+    generate_raw_moves_in_direction(row, col, -1, 1, player, 7, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 0, -1, player, 7, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 0, 1, player, 7, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 1, -1, player, 7, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 1, 0, player, 7, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 1, 1, player, 7, true, false, moves);
+}
+
+void Position::generate_king_moves(int row, int col, int player,
+    std::vector<Move>& moves)
+{
+    generate_raw_moves_in_direction(row, col, -1, -1, player, 1, true, false, moves);
+    generate_raw_moves_in_direction(row, col, -1, 0, player, 1, true, false, moves);
+    generate_raw_moves_in_direction(row, col, -1, 1, player, 1, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 0, -1, player, 1, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 0, 1, player, 1, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 1, -1, player, 1, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 1, 0, player, 1, true, false, moves);
+    generate_raw_moves_in_direction(row, col, 1, 1, player, 1, true, false, moves);
+}
+
 
 // Makes the given move on the board. Assumes that the move is legal.
 void Position::make_move(const Move& m)

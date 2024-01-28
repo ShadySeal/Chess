@@ -13,9 +13,22 @@ public:
     // Prints the chessboard as ASCII graphics.
     void print() const;
 
-    void add_move(int row, int col, int dest_row, int dest_col,
-        std::vector<Move>& moves, int player);
+    void generate_pawn_moves(int row, int col, int player,
+        std::vector<Move>& moves);
+
     void generate_rook_moves(int row, int col, int player,
+        std::vector<Move>& moves);
+
+    void generate_bishop_moves(int row, int col, int player,
+        std::vector<Move>& moves);
+
+    void generate_knight_moves(int row, int col, int player,
+        std::vector<Move>& moves);
+
+    void generate_queen_moves(int row, int col, int player,
+        std::vector<Move>& moves);
+
+    void generate_king_moves(int row, int col, int player,
         std::vector<Move>& moves);
 
     // Generate possible raw moves for a piece in a specific direction.
