@@ -18,24 +18,24 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="asema.cpp">
+    <ClCompile Include="chess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="siirto.cpp">
+    <ClCompile Include="move.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="shakki.cpp">
+    <ClCompile Include="position.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="asema.h">
+    <ClInclude Include="position.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="shakki.h">
+    <ClInclude Include="move.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="siirto.h">
+    <ClInclude Include="chess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

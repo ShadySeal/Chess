@@ -1,25 +1,25 @@
 #include <iostream>
 #include <string>
-#include "asema.h"
-#include "siirto.h"
+#include "position.h"
+#include "move.h"
 #include <vector>
 
 using namespace std;
 
 int main()
 {
-	// Alkuasema.
-	Asema asema;
-	vector<Siirto> siirrot;
-	asema.anna_tornin_raakasiirrot(6, 3, MUSTA, siirrot);
+    // Initial position.
+    Position position;
+    vector<Move> moves;
+    position.generate_rook_moves(6, 3, BLACK, moves);
 
-	asema.tulosta();
+    position.print();
 
-	for (Siirto s : siirrot)
-	{
-		s.tulosta();
-		cout << endl;
-	}
+    for (Move m : moves)
+    {
+        m.print();
+        cout << endl;
+    }
 
-	return 0;
+    return 0;
 }

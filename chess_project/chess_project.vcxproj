@@ -127,15 +127,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="asema.cpp" />
+    <ClCompile Include="chess.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="shakki.cpp" />
-    <ClCompile Include="siirto.cpp" />
+    <ClCompile Include="move.cpp" />
+    <ClCompile Include="position.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="asema.h" />
-    <ClInclude Include="shakki.h" />
-    <ClInclude Include="siirto.h" />
+    <ClInclude Include="chess.h" />
+    <ClInclude Include="move.h" />
+    <ClInclude Include="position.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
