@@ -10,5 +10,7 @@ Move::Move(const std::string& s)
 
 void Move::print() const
 {
-    cout << "Valid moves: (" << _dest_row << ", " << _dest_col << ")";
+    static int i = 1;
+    cout << i << ". (" << _dest_row << ", " << _dest_col << ")";
+    i++;
 }

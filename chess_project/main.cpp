@@ -11,11 +11,10 @@ int main()
     // Initial position.
     Position position;
     vector<Move> moves;
-    position._board[5][1] = bP;
-    position._board[5][3] = bP;
-    position.generate_pawn_moves(6, 2, WHITE, moves);
-
+    position.give_every_raw_move(BLACK, moves);
     position.print();
+
+    cout << "Valid moves:" << endl;
 
     for (Move m : moves)
     {
@@ -23,5 +22,26 @@ int main()
         cout << endl;
     }
 
+    /*while (true)
+    {
+        position.print();
+        string input;
+        cin >> input;
+
+        if (input == "m")
+        {
+            break;
+        }
+
+        Move move(input);
+        position.make_move(move);
+        
+        for (Move m : moves)
+        {
+            m.print();
+            cout << endl;
+        }
+    }*/
+    
     return 0;
 }
