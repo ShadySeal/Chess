@@ -239,28 +239,6 @@ void Position::make_move(const Move& m)
     // Save the piece in the starting square.
     int piece = _board[m._start_row][m._start_col];
 
-    /*switch (piece)
-    {
-    case wR:
-        generate_rook_moves(m._start_row, m._start_col, WHITE, moves);
-        break;
-    case wN:
-        generate_knight_moves(m._start_row, m._start_col, WHITE, moves);
-        break;
-    case wB:
-        generate_bishop_moves(m._start_row, m._start_col, WHITE, moves);
-        break;
-    case wQ:
-        generate_queen_moves(m._start_row, m._start_col, WHITE, moves);
-        break;
-    case wK:
-        generate_king_moves(m._start_row, m._start_col, WHITE, moves);
-        break;
-    case wP:
-        generate_pawn_moves(m._start_row, m._start_col, WHITE, moves);
-        break;
-    }*/
-
     // Clear the starting square.
     _board[m._start_row][m._start_col] = NA;
 

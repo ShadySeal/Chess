@@ -11,6 +11,11 @@ Move::Move(const std::string& s)
 void Move::print() const
 {
     static int i = 1;
-    cout << i << ". (" << _dest_row << ", " << _dest_col << ")";
+    char start_col = 'a' + _start_col;
+    char start_row = '8' - _start_row;
+    char dest_col = 'a' + _dest_col;
+    char dest_row = '8' - _dest_row;
+
+    cout << i << ". " << start_col << start_row << dest_col << dest_row;
     i++;
 }

@@ -24,6 +24,7 @@ int main()
 
     /*while (true)
     {
+        position.give_every_raw_move(BLACK, moves);
         position.print();
         string input;
         cin >> input;
@@ -34,13 +35,30 @@ int main()
         }
 
         Move move(input);
-        position.make_move(move);
-        
+
+        cout << "Valid moves:" << endl;
+
+        bool validMove = false;
+
         for (Move m : moves)
         {
+            if (m == move)
+            {
+                validMove = true;
+                break;
+            }
+
             m.print();
             cout << endl;
         }
+
+        if (!validMove)
+        {
+            cout << "Invalid move. Please enter a valid move." << endl;
+            continue;
+        }
+
+        position.make_move(move);
     }*/
     
     return 0;
