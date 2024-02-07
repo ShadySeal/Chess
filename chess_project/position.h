@@ -53,10 +53,11 @@ public:
         }
     }
 
-    bool is_square_threatened(int row, int col, int enemy_player)
+    bool is_square_threatened(int row, int col, int enemy_player) const
     {
         vector<Move> enemy_moves;
         give_every_raw_move(enemy_player, enemy_moves);
+        
 
         for (Move& m : enemy_moves)
         {
@@ -64,10 +65,8 @@ public:
             {
                 return true;
             }
-            
         }
         return false;
-   
     }
 
     void give_moves(std::vector<Move>& moves) const
@@ -78,6 +77,7 @@ public:
 
         std::vector<Move> raw_moves;
         give_every_raw_move(player, raw_moves);
+        give_castlings(player, raw_moves);
 
         for (Move& rm : raw_moves)
         {
@@ -95,6 +95,41 @@ public:
         }
     }
 
+    void give_castlings(int player, std::vector<Move>& moves) const
+    {
+        if (player == WHITE)
+        {
+            if (_board[7][5] == NA && _board[7][6] == NA &&
+                !is_square_threatened(7, 4, BLACK) && !is_square_threatened(7, 5, BLACK))
+            {
+                if (_white_short_castling_allowed)
+                {
+                    moves.push_back(Move(7, 4, 7, 6, NA));
+                }
+                if (_white_long_castling_allowed)
+                {
+                    moves.push_back(Move(7, 4, 7, 6, NA));
+                }
+                
+            }
+        }
+        else
+        {
+            if (_board[0][5] == NA && _board[0][6] == NA &&
+                !is_square_threatened(0, 4, WHITE) && !is_square_threatened(0, 5, WHITE))
+            {
+                if (_white_short_castling_allowed)
+                {
+                    moves.push_back(Move(0, 4, 0, 6, NA));
+                }
+                if (_white_long_castling_allowed)
+                {
+                    moves.push_back(Move(0, 4, 0, 6, NA));
+                }
+            }
+        }
+    }
+
     int _board[8][8] = {
         { bR, bN, bB, bQ, bK, bB, bN, bR },
         { bP, bP, bP, bP, bP, bP, bP, bP },
@@ -107,4 +142,11 @@ public:
     };
 
     int _turn = WHITE;
+
+    bool _white_short_castling_allowed = true;
+    bool _white_long_castling_allowed = true;
+    bool _black_short_castling_allowed = true;
+    bool _black_long_castling_allowed = true;
+
+    int double_step = -1;
 };

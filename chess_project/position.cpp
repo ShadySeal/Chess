@@ -267,6 +267,38 @@ void Position::make_move(const Move& m)
     _board[m._dest_row][m._dest_col] = piece;
 
     _turn = opponent(_turn);
+
+    if (piece == wK && m._start_row == 7 && m._start_col == 4 && m._dest_row == 7 && m._dest_col == 6)
+    {
+        _board[7][7] = NA;
+        _board[7][5] = wR;
+    }
+    else if (piece == bK && m._start_row == 0 && m._start_col == 4 && m._dest_row == 0 && m._dest_col == 6)
+    {
+        _board[0][7] = NA;
+        _board[0][5] = wR;
+    }
+
+    switch (piece)
+    {
+    case wK:
+        _white_short_castling_allowed = false;
+        _white_long_castling_allowed = false;
+        break;
+    case bK:
+        _black_short_castling_allowed = false;
+        _black_long_castling_allowed = false;
+        break;
+    }
+
+    if (m._start_row == 7 || m._start_col == 7 || m._dest_row == 7 || m._dest_col == 7)
+    {
+        _white_short_castling_allowed == false;
+    }
+    else if (m._start_row == 1 || m._start_col == 1 || m._dest_row == 1 || m._dest_col == 1)
+    {
+        _black_short_castling_allowed == false;
+    }
 }
 
 void Position::print() const
