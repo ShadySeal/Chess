@@ -17,6 +17,19 @@ public:
 
     void print() const;
 
+    bool operator==(const Move& rhs)
+    {
+        if (_start_row == rhs._start_row && _start_col == rhs._start_col
+            && _dest_row == rhs._dest_row && _dest_col == rhs._dest_col)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 private:
     int _start_row; // starting square row
     int _start_col; // starting square column

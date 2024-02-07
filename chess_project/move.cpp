@@ -10,12 +10,31 @@ Move::Move(const std::string& s)
 
 void Move::print() const
 {
-    static int i = 1;
     char start_col = 'a' + _start_col;
     char start_row = '8' - _start_row;
     char dest_col = 'a' + _dest_col;
     char dest_row = '8' - _dest_row;
 
-    cout << i << ". " << start_col << start_row << dest_col << dest_row;
-    i++;
+    string promoted_piece;
+
+    switch (_promoted_piece)
+    {
+    case wQ: case bQ:
+        promoted_piece = " Queen promoted.";
+        break;
+    case wR: case bR:
+        promoted_piece = " Rook promoted.";
+        break;
+    case wN: case bN:
+        promoted_piece = " Knight promoted.";
+        break;
+    case wB: case bB:
+        promoted_piece = " Bishop promoted.";
+        break;
+    case NA:
+        promoted_piece = "";
+        break;
+    }
+
+    cout << start_col << start_row << " to " << dest_col << dest_row << promoted_piece;
 }

@@ -11,21 +11,37 @@ int main()
     // Initial position.
     Position position;
     vector<Move> moves;
-    position.give_every_raw_move(BLACK, moves);
-    position.print();
 
-    cout << "Valid moves:" << endl;
-
-    for (Move m : moves)
+    while (true)
     {
-        m.print();
-        cout << endl;
-    }
+        moves.clear();
+        /*position.clear();
+        position._board[1][2] = wP;*/
+        position.give_moves(moves);
+        position.print();   
 
-    /*while (true)
-    {
-        position.give_every_raw_move(BLACK, moves);
-        position.print();
+        if (position._turn == WHITE)
+        {
+            cout << "Turn: White" << endl;
+        }
+        else if (position._turn == BLACK)
+        {
+            cout << "Turn: Black" << endl;
+        }
+        
+        cout << "Valid moves:" << endl;
+
+        static int amount = 1;
+        for (Move& m : moves)
+        {
+            
+            cout << amount << ". ";
+            m.print();
+            amount++;
+            cout << endl;
+        }
+        amount = 1;
+
         string input;
         cin >> input;
 
@@ -36,20 +52,15 @@ int main()
 
         Move move(input);
 
-        cout << "Valid moves:" << endl;
-
         bool validMove = false;
 
-        for (Move m : moves)
+        for (Move& m : moves)
         {
             if (m == move)
             {
                 validMove = true;
                 break;
             }
-
-            m.print();
-            cout << endl;
         }
 
         if (!validMove)
@@ -59,7 +70,7 @@ int main()
         }
 
         position.make_move(move);
-    }*/
+    }
     
     return 0;
 }

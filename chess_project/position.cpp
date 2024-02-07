@@ -54,30 +54,28 @@ void Position::generate_raw_moves_in_direction(int row, int col, int row_change,
 void Position::generate_pawn_moves(int row, int col, int player,
     std::vector<Move>& moves) const
 {
+    vector<Move> pawn_moves;
+
     if (player == WHITE)
     {
         if (row == 6)
         {
-            generate_raw_moves_in_direction(row, col, -1, 0, player, 1, NA, false, false, moves);
-            generate_raw_moves_in_direction(row, col, -2, 0, player, 1, NA, false, false, moves);
-        }
-        else if (row == 0)
-        {
-
+            generate_raw_moves_in_direction(row, col, -1, 0, player, 1, NA, false, false, pawn_moves);
+            generate_raw_moves_in_direction(row, col, -2, 0, player, 1, NA, false, false, pawn_moves);
         }
         else
         {
-            generate_raw_moves_in_direction(row, col, -1, 0, player, 1, NA, false, false, moves);
+            generate_raw_moves_in_direction(row, col, -1, 0, player, 1, NA, false, false, pawn_moves);
         }
 
         if (_board[row - 1][col - 1] != NA)
         {
-            generate_raw_moves_in_direction(row, col, -1, -1, player, 1, NA, true, false, moves);
+            generate_raw_moves_in_direction(row, col, -1, -1, player, 1, NA, true, false, pawn_moves);
         }
 
         if (_board[row - 1][col + 1] != NA)
         {
-            generate_raw_moves_in_direction(row, col, -1, 1, player, 1, NA, true, false, moves);
+            generate_raw_moves_in_direction(row, col, -1, 1, player, 1, NA, true, false, pawn_moves);
         }
     }
 
@@ -85,24 +83,47 @@ void Position::generate_pawn_moves(int row, int col, int player,
     {
         if (row == 1)
         {
-            generate_raw_moves_in_direction(row, col, 1, 0, player, 1, NA, false, false, moves);
-            generate_raw_moves_in_direction(row, col, 2, 0, player, 1, NA, false, false, moves);
+            generate_raw_moves_in_direction(row, col, 1, 0, player, 1, NA, false, false, pawn_moves);
+            generate_raw_moves_in_direction(row, col, 2, 0, player, 1, NA, false, false, pawn_moves);
         }
         else
         {
-            generate_raw_moves_in_direction(row, col, 1, 0, player, 1, NA, false, false, moves);
+            generate_raw_moves_in_direction(row, col, 1, 0, player, 1, NA, false, false, pawn_moves);
         }
 
         if (_board[row + 1][col - 1] != NA)
         {
-            generate_raw_moves_in_direction(row, col, 1, -1, player, 1, NA, true, false, moves);
+            generate_raw_moves_in_direction(row, col, 1, -1, player, 1, NA, true, false, pawn_moves);
         }
 
         if (_board[row + 1][col + 1] != NA)
         {
-            generate_raw_moves_in_direction(row, col, 1, 1, player, 1, NA, true, false, moves);
+            generate_raw_moves_in_direction(row, col, 1, 1, player, 1, NA, true, false, pawn_moves);
         }
     }
+
+    // pawn-moves vektorissa on sotilaan siirrot
+    for (Move& m : pawn_moves)
+    {
+        if (m._dest_row != 0 && m._dest_row != 7)
+            moves.push_back(m);
+        else if (m._dest_row == 0)
+        {
+            // White gets promoted.
+            moves.push_back(Move(m._start_row, m._start_col, m._dest_row, m._dest_col, wQ));
+            moves.push_back(Move(m._start_row, m._start_col, m._dest_row, m._dest_col, wR));
+            moves.push_back(Move(m._start_row, m._start_col, m._dest_row, m._dest_col, wN));
+            moves.push_back(Move(m._start_row, m._start_col, m._dest_row, m._dest_col, wB));
+        }
+        else {
+            // Black gets promoted.
+            moves.push_back(Move(m._start_row, m._start_col, m._dest_row, m._dest_col, bQ));
+            moves.push_back(Move(m._start_row, m._start_col, m._dest_row, m._dest_col, bR));
+            moves.push_back(Move(m._start_row, m._start_col, m._dest_row, m._dest_col, bN));
+            moves.push_back(Move(m._start_row, m._start_col, m._dest_row, m._dest_col, bB));
+        }
+    }
+
 }
 
 void Position::generate_rook_moves(int row, int col, int player,
