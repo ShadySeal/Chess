@@ -118,11 +118,11 @@ public:
             if (_board[0][5] == NA && _board[0][6] == NA &&
                 !is_square_threatened(0, 4, WHITE) && !is_square_threatened(0, 5, WHITE))
             {
-                if (_white_short_castling_allowed)
+                if (_black_short_castling_allowed)
                 {
                     moves.push_back(Move(0, 4, 0, 6, NA));
                 }
-                if (_white_long_castling_allowed)
+                if (_black_long_castling_allowed)
                 {
                     moves.push_back(Move(0, 4, 0, 6, NA));
                 }

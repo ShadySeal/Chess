@@ -276,7 +276,7 @@ void Position::make_move(const Move& m)
     else if (piece == bK && m._start_row == 0 && m._start_col == 4 && m._dest_row == 0 && m._dest_col == 6)
     {
         _board[0][7] = NA;
-        _board[0][5] = wR;
+        _board[0][5] = bR;
     }
 
     switch (piece)
@@ -293,11 +293,11 @@ void Position::make_move(const Move& m)
 
     if (m._start_row == 7 || m._start_col == 7 || m._dest_row == 7 || m._dest_col == 7)
     {
-        _white_short_castling_allowed == false;
+        _white_short_castling_allowed = false;
     }
-    else if (m._start_row == 1 || m._start_col == 1 || m._dest_row == 1 || m._dest_col == 1)
+    else if (m._start_row == 0 || m._start_col == 0 || m._dest_row == 0 || m._dest_col == 0)
     {
-        _black_short_castling_allowed == false;
+        _black_short_castling_allowed = false;
     }
 }
 
