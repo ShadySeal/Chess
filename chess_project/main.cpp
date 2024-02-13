@@ -12,6 +12,9 @@ int main()
     Position position;
     vector<Move> moves;
 
+    float arvo = Position::minimax(position, 2);
+    cout << arvo;
+
     bool canPrint = true;
     while (true)
     {

@@ -1,4 +1,6 @@
 #pragma once
+#include <limits>
+#include <map>
 #include "chess.h"
 #include "move.h"
 #include <vector>
@@ -128,6 +130,103 @@ public:
                 }
             }
         }
+    }
+
+    float score_end_result() const
+    {
+        if (_turn == WHITE)
+        {
+            int row, col;
+            find_piece(wK, row, col);
+
+            if (is_square_threatened(row, col, BLACK))
+                return -1000000;
+            else
+                return 0;
+        }
+        else
+        {
+            int row, col;
+            find_piece(bK, row, col);
+
+            if (is_square_threatened(row, col, WHITE))
+                return -1000000;
+            else
+                return 0;
+        }
+    }
+
+    float evaluate() const
+    {
+        return 1.0 * material() + 0.05 * mobility();
+    }
+
+    static float minimax(Position& position, int depth)
+    {
+        vector<Move> moves;
+        position.give_moves(moves);
+
+        if (moves.size() == 0)
+        {
+            return position.score_end_result();
+        }
+
+        if (depth == 0)
+        {
+            return position.evaluate();
+        }
+
+        float best_value = position._turn == WHITE ? numeric_limits<float>:: min() : numeric_limits<float>::max();
+        for (Move& s : moves)
+        {
+            Position new_position = position;
+            new_position.make_move(s);
+
+             float value = minimax(new_position, depth - 1);
+             
+
+             if (position._turn == WHITE && value > best_value)
+             {
+                 best_value = value;
+             }
+             else if (position._turn == BLACK && value > best_value)
+             {
+                 best_value = value;
+             }
+        }
+
+        return best_value;
+    }
+
+    float material() const
+    {
+        static map<int, float> piece_values = {
+            {wP, 1}, {wN, 3}, {wB, 3}, {wR, 5}, {wQ, 9},
+            {wP, 1}, {wN, 3}, {wB, 3}, {wR, 5}, {wQ, 9},
+            {NA, 0}
+        };
+
+        float value = 0;
+        for (int row = 0; row < 8; row++)
+        {
+            for (int col = 0; col < 8; col++)
+            {
+                int piece = _board[row][col];
+                value += piece_values[piece];
+            }
+        }
+        return 0; // Tarkista.
+    }
+
+    float mobility() const
+    {
+        vector<Move> white_moves;
+        vector<Move> black_moves;
+
+        give_every_raw_move(WHITE, white_moves);
+        give_every_raw_move(BLACK, black_moves);
+
+        return white_moves.size() - black_moves.size();
     }
 
     int _board[8][8] = {
