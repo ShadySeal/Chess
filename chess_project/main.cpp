@@ -10,88 +10,101 @@ int main() {
     // Initial position.
     Position position;
     vector<Move> moves;
+    vector<Position> history;
 
+    enum PlayerType { HUMAN, COMPUTER };
+
+    PlayerType whitePlayer, blackPlayer;
+    char choice;
+    cout << "Is white human or computer? (h/c): ";
+    cin >> choice;
+    whitePlayer = (choice == 'h' || choice == 'H') ? HUMAN : COMPUTER;
+    cout << "Is black human or computer? (h/c): ";
+    cin >> choice;
+    blackPlayer = (choice == 'h' || choice == 'H') ? HUMAN : COMPUTER;
+
+    bool canPrint = true;
     while (true) {
         moves.clear();
         position.give_moves(moves);
 
-        position.print();
-        if (position._turn == WHITE) {
-            cout << "Turn: White" << endl;
-        }
-        else if (position._turn == BLACK) {
-            cout << "Turn: Black" << endl;
-        }
-
-        cout << "Valid moves:" << endl;
-
-        int moveNumber = 1;
-        for (const Move& m : moves) {
-            cout << moveNumber << ". ";
-            m.print();
-            cout << endl;
-            moveNumber++;
+        if (canPrint)
+        {
+            position.print();
+            if (position._turn == WHITE) {
+                cout << "Turn: White" << endl;
+            }
+            else if (position._turn == BLACK) {
+                cout << "Turn: Black" << endl;
+            }
         }
 
-        if (position._turn == WHITE) {
+        if ((position._turn == WHITE && whitePlayer == HUMAN) ||
+            (position._turn == BLACK && blackPlayer == HUMAN)) {
             // Human player's turn
-            cout << "Enter your move (e.g., a2a4): ";
             string input;
+            bool canMove = true;
+            canPrint = false;
+
+            cout << "Enter your move (e.g., a2a4): ";
             cin >> input;
 
             if (input == "m") {
                 break;
             }
-
-            Move move(input);
-
-            bool validMove = false;
-
-            for (Move& m : moves) {
-                if (m == move) {
-                    validMove = true;
-                    break;
+            else if (input == "moves")
+            {
+                canMove = false;
+                cout << "Valid moves:" << endl;
+                int moveNumber = 1;
+                for (const Move& m : moves) {
+                    cout << moveNumber << ". ";
+                    m.print();
+                    cout << endl;
+                    moveNumber++;
+                }
+            }
+            else if (input == "undo") {
+                canMove = false;
+                if (!history.empty()) {
+                    canPrint = true;
+                    position = history.back(); // Restore previous position
+                    history.pop_back(); // Remove last position from history
+                }
+                else {
+                    cout << "Cannot undo further. History is empty." << endl;
+                    continue; // Continue command input loop
                 }
             }
 
-            if (!validMove) {
-                cout << "Invalid move. Please enter a valid move." << endl;
-                continue;
-            }
+            if (canMove)
+            {
+                Move move(input);
+                bool validMove = false;
+                for (Move& m : moves) {
+                    if (m == move) {
+                        validMove = true;
+                        canPrint = true;
+                        break;
+                    }
+                }
 
-            position.make_move(move);
+                if (!validMove) {
+                    cout << "Invalid move. Please enter a valid move." << endl;
+                    continue;
+                }
+
+                history.push_back(position);
+                position.make_move(move);
+            }
         }
         else {
-            //// AI's turn
-            //MinimaxValue bestMove = position.minimax(2);
-            //Move move = bestMove._move;
-            //position.make_move(move);
-
-            // Human player's turn
-            cout << "Enter your move (e.g., a2a4): ";
-            string input;
-            cin >> input;
-
-            if (input == "m") {
-                break;
-            }
-
-            Move move(input);
-
-            bool validMove = false;
-
-            for (Move& m : moves) {
-                if (m == move) {
-                    validMove = true;
-                    break;
-                }
-            }
-
-            if (!validMove) {
-                cout << "Invalid move. Please enter a valid move." << endl;
-                continue;
-            }
-
+            // AI's turn
+            cout << endl << "Computer is thinking..." << endl;
+            MinimaxValue bestMove = position.minimax(2);
+            Move move = bestMove._move;
+            move.print();
+            cout << endl;
             position.make_move(move);
         }
     }
