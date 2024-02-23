@@ -9,6 +9,9 @@ using namespace std;
 class Move
 {
 public:
+    Move()
+    {}
+
     Move(int start_row, int start_col, int dest_row, int dest_col, int promoted_piece) :
         _start_row(start_row), _start_col(start_col), _dest_row(dest_row), _dest_col(dest_col), _promoted_piece(promoted_piece)
     {}

@@ -6,80 +6,95 @@
 
 using namespace std;
 
-int main()
-{
+int main() {
     // Initial position.
     Position position;
     vector<Move> moves;
 
-    float arvo = Position::minimax(position, 2);
-    cout << arvo;
-
-    bool canPrint = true;
-    while (true)
-    {
+    while (true) {
         moves.clear();
-        /*position.clear();
-        position._board[1][2] = wP;*/
         position.give_moves(moves);
 
-        if (canPrint)
-        {
-            position.print();
-            if (position._turn == WHITE)
-            {
-                cout << "Turn: White" << endl;
-            }
-            else if (position._turn == BLACK)
-            {
-                cout << "Turn: Black" << endl;
-            }
-
-            cout << "Valid moves:" << endl;
-
-            static int amount = 1;
-            for (Move& m : moves)
-            {
-
-                cout << amount << ". ";
-                m.print();
-                amount++;
-                cout << endl;
-            }
-            amount = 1;
+        position.print();
+        if (position._turn == WHITE) {
+            cout << "Turn: White" << endl;
         }
-        
-        string input;
-        cin >> input;
-
-        if (input == "m")
-        {
-            break;
+        else if (position._turn == BLACK) {
+            cout << "Turn: Black" << endl;
         }
 
-        Move move(input);
+        cout << "Valid moves:" << endl;
 
-        bool validMove = false;
+        int moveNumber = 1;
+        for (const Move& m : moves) {
+            cout << moveNumber << ". ";
+            m.print();
+            cout << endl;
+            moveNumber++;
+        }
 
-        for (Move& m : moves)
-        {
-            if (m == move)
-            {
-                validMove = true;
-                canPrint = true;
+        if (position._turn == WHITE) {
+            // Human player's turn
+            cout << "Enter your move (e.g., a2a4): ";
+            string input;
+            cin >> input;
+
+            if (input == "m") {
                 break;
             }
-        }
 
-        if (!validMove)
-        {
-            cout << "Invalid move. Please enter a valid move." << endl;
-            canPrint = false;
-            continue;
-        }
+            Move move(input);
 
-        position.make_move(move);
+            bool validMove = false;
+
+            for (Move& m : moves) {
+                if (m == move) {
+                    validMove = true;
+                    break;
+                }
+            }
+
+            if (!validMove) {
+                cout << "Invalid move. Please enter a valid move." << endl;
+                continue;
+            }
+
+            position.make_move(move);
+        }
+        else {
+            //// AI's turn
+            //MinimaxValue bestMove = position.minimax(2);
+            //Move move = bestMove._move;
+            //position.make_move(move);
+
+            // Human player's turn
+            cout << "Enter your move (e.g., a2a4): ";
+            string input;
+            cin >> input;
+
+            if (input == "m") {
+                break;
+            }
+
+            Move move(input);
+
+            bool validMove = false;
+
+            for (Move& m : moves) {
+                if (m == move) {
+                    validMove = true;
+                    break;
+                }
+            }
+
+            if (!validMove) {
+                cout << "Invalid move. Please enter a valid move." << endl;
+                continue;
+            }
+
+            position.make_move(move);
+        }
     }
-    
+
     return 0;
 }

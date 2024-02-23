@@ -122,8 +122,16 @@ void Position::generate_pawn_moves(int row, int col, int player,
             moves.push_back(Move(m._start_row, m._start_col, m._dest_row, m._dest_col, bN));
             moves.push_back(Move(m._start_row, m._start_col, m._dest_row, m._dest_col, bB));
         }
-    }
 
+        if (double_step != -1 && _board[m._start_row][m._start_col - 1] == bP || _board[m._start_row][m._start_col + 1] == bP && _board[m._start_row][m._start_col] == wP && m._start_row == 3)
+        {
+            moves.push_back(Move(m._start_row, m._dest_col, 2, double_step, NA));
+        }
+        else if (double_step != -1 && _board[m._start_row][m._start_col - 1] == wP || _board[m._start_row][m._start_col + 1] == wP && _board[m._start_row][m._start_col] == bP && m._start_row == 4)
+        {
+            moves.push_back(Move(m._start_row, m._dest_col, 5, double_step, NA));
+        }
+    }
 }
 
 void Position::generate_rook_moves(int row, int col, int player,
@@ -298,6 +306,22 @@ void Position::make_move(const Move& m)
     else if (m._start_row == 0 || m._start_col == 0 || m._dest_row == 0 || m._dest_col == 0)
     {
         _black_short_castling_allowed = false;
+    }
+
+    bool isPawn = (piece == wP || piece == bP);
+
+    if (isPawn && abs(m._start_col - m._dest_col) == 2)
+    {
+        double_step = m._dest_col;
+    }
+    else
+    {
+        double_step = -1;
+    }
+
+    if (isPawn && m._start_col != m._dest_col && _board[m._dest_row][m._dest_col] == NA)
+    {
+        _board[m._start_row][m._dest_col] == NA;
     }
 }
 
