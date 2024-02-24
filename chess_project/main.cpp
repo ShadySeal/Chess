@@ -3,6 +3,9 @@
 #include "position.h"
 #include "move.h"
 #include <vector>
+#include <windows.h>
+#include <fcntl.h>
+#include <io.h>
 
 using namespace std;
 
