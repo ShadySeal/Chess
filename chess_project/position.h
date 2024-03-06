@@ -46,6 +46,8 @@ public:
     void generate_king_moves(int row, int col, int player,
         std::vector<Move>& moves) const;
 
+	void promote_piece(int piece);
+
     // Generate possible raw moves for a piece in a specific direction.
     void generate_raw_moves_in_direction(int row, int col, int row_change, int col_change,
         int player, int max_steps, int promoted_piece, bool can_capture, bool must_capture, std::vector<Move>& moves) const;

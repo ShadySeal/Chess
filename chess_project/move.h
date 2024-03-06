@@ -33,7 +33,6 @@ public:
         }
     }
 
-private:
     int _start_row; // starting square row
     int _start_col; // starting square column
 

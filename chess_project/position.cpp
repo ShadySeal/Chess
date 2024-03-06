@@ -115,7 +115,8 @@ void Position::generate_pawn_moves(int row, int col, int player,
             moves.push_back(Move(m._start_row, m._start_col, m._dest_row, m._dest_col, wN));
             moves.push_back(Move(m._start_row, m._start_col, m._dest_row, m._dest_col, wB));
         }
-        else {
+        else
+        {
             // Black gets promoted.
             moves.push_back(Move(m._start_row, m._start_col, m._dest_row, m._dest_col, bQ));
             moves.push_back(Move(m._start_row, m._start_col, m._dest_row, m._dest_col, bR));
@@ -271,8 +272,22 @@ void Position::make_move(const Move& m)
     // Clear the starting square.
     _board[m._start_row][m._start_col] = NA;
 
+    bool isPawn = (piece == wP || piece == bP);
+
+    if (isPawn && m._start_col != m._dest_col && _board[m._dest_row][m._dest_col] == NA)
+    {
+        _board[m._start_row][m._dest_col] = NA;
+    }
+
     // Place the original piece in the destination square.
-    _board[m._dest_row][m._dest_col] = piece;
+    if (m._promoted_piece == NA)
+    {
+        _board[m._dest_row][m._dest_col] = piece;
+    }
+    else
+    {
+        _board[m._dest_row][m._dest_col] = m._promoted_piece;
+    }
 
     _turn = opponent(_turn);
 
@@ -308,9 +323,9 @@ void Position::make_move(const Move& m)
         _black_short_castling_allowed = false;
     }
 
-    bool isPawn = (piece == wP || piece == bP);
+    
 
-    if (isPawn && abs(m._start_col - m._dest_col) == 2)
+    if (isPawn && abs(m._start_row - m._dest_row) == 2)
     {
         double_step = m._dest_col;
     }
@@ -319,10 +334,6 @@ void Position::make_move(const Move& m)
         double_step = -1;
     }
 
-    if (isPawn && m._start_col != m._dest_col && _board[m._dest_row][m._dest_col] == NA)
-    {
-        _board[m._start_row][m._dest_col] == NA;
-    }
 }
 
 void Position::print() const

@@ -15,6 +15,11 @@ int main() {
     vector<Move> moves;
     vector<Position> history;
 
+    position.clear();
+    position._board[7][4] = wK;
+    position._board[7][0] = wR;
+    position._board[7][7] = wR;
+
     enum PlayerType { HUMAN, COMPUTER };
 
     PlayerType whitePlayer, blackPlayer;
