@@ -16,7 +16,7 @@ public:
         _start_row(start_row), _start_col(start_col), _dest_row(dest_row), _dest_col(dest_col), _promoted_piece(promoted_piece)
     {}
 
-    Move(const std::string& s);
+    Move(const std::wstring& s);
 
     void print() const;
 

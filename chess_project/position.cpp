@@ -1,5 +1,8 @@
 #include "position.h"
 #include <vector>
+#include <windows.h>
+#include <fcntl.h>
+#include <io.h>
 
 // Clears the board.
 void Position::clear()
@@ -291,10 +294,19 @@ void Position::make_move(const Move& m)
 
     _turn = opponent(_turn);
 
-    if (piece == wK && m._start_row == 7 && m._start_col == 4 && m._dest_row == 7 && m._dest_col == 6)
+    if (piece == wK && m._start_row == 7 && m._start_col == 4 && m._dest_row == 7 && m._dest_col == 6 )
     {
-        _board[7][7] = NA;
-        _board[7][5] = wR;
+        if (_board[7][7] == wR)
+        {
+            _board[7][7] = NA;
+            _board[7][5] = wR;
+        }
+        else if (_board[7][0] == wR)
+        {
+            _board[7][7] = NA;
+            _board[7][2] = wR;
+        }
+        
     }
     else if (piece == bK && m._start_row == 0 && m._start_col == 4 && m._dest_row == 0 && m._dest_col == 6)
     {
@@ -338,17 +350,51 @@ void Position::make_move(const Move& m)
 
 void Position::print() const
 {
-    const string pieces[] =
-    { "R", "N", "B", "Q", "K", "P", "r", "n", "b", "q", "k", "p", " " };
+    CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &consoleInfo);
+    WORD defaultAttributes = consoleInfo.wAttributes;
+
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    const wstring pieces[] =
+    { L"\u2656", L"\u2658", L"\u2657", L"\u2655", L"\u2654", L"\u2659",
+        L"\u265C", L"\u265E", L"\u265D", L"\u265B", L"\u265A", L"\u265F", L" " };
 
     for (int i = 0; i < 8; i++) {
-        cout << " +---+---+---+---+---+---+---+---+" << endl;
-        cout << 8 - i << "| ";
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), defaultAttributes);
+        wcout << 8 - i << " ";
         for (int j = 0; j < 8; j++) {
-            cout << pieces[_board[i][j]] << " | ";
+            if ((i + j) % 2 == 0)
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
+                    BACKGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
+            else
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
+                    BACKGROUND_INTENSITY | BACKGROUND_GREEN);
+
+            wcout << "     ";
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), defaultAttributes);
         }
-        cout << endl;
+
+        wcout << endl << "  ";
+
+        for (int j = 0; j < 8; j++) {
+            
+            if ((i + j) % 2 == 0)
+            {
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
+                    BACKGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
+            }
+            else
+            {
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
+                    BACKGROUND_INTENSITY | BACKGROUND_GREEN);
+            }
+            
+            wcout << "  " << pieces[_board[i][j]] << "  ";
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), defaultAttributes);
+        }
+        wcout << endl;
     }
-    cout << " +---+---+---+---+---+---+---+---+" << endl;
-    cout << "   A   B   C   D   E   F   G   H" << endl << endl;
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), defaultAttributes);
+    wcout << "    A    B    C    D    E    F    G    H" << endl << endl;
 }
