@@ -116,34 +116,29 @@ public:
     {
         if (player == WHITE)
         {
-            if (_board[7][5] == NA && _board[7][6] == NA &&
+            if (_white_short_castling_allowed && _board[7][5] == NA && _board[7][6] == NA &&
                 !is_square_threatened(7, 4, BLACK) && !is_square_threatened(7, 5, BLACK))
             {
-                if (_white_short_castling_allowed)
-                {
-                    moves.push_back(Move(7, 4, 7, 6, NA));
-                }
-                if (_white_long_castling_allowed)
-                {
-                    moves.push_back(Move(7, 4, 7, 1, NA));
-                }
-                
+				moves.push_back(Move(7, 4, 7, 6, NA));
             }
+			if (_white_long_castling_allowed && _board[7][3] == NA && _board[7][2] == NA && _board[7][1] == NA &&
+				!is_square_threatened(7, 4, BLACK) && !is_square_threatened(7, 5, BLACK))
+			{
+				moves.push_back(Move(7, 4, 7, 1, NA));
+			}
         }
         else
         {
-            if (_board[0][5] == NA && _board[0][6] == NA &&
+            if (_black_short_castling_allowed && _board[0][5] == NA && _board[0][6] == NA &&
                 !is_square_threatened(0, 4, WHITE) && !is_square_threatened(0, 5, WHITE))
             {
-                if (_black_short_castling_allowed)
-                {
-                    moves.push_back(Move(0, 4, 0, 6, NA));
-                }
-                if (_black_long_castling_allowed)
-                {
-                    moves.push_back(Move(0, 4, 0, 1, NA));
-                }
+				moves.push_back(Move(0, 4, 0, 6, NA));
             }
+			if (_black_long_castling_allowed && _board[0][3] == NA && _board[0][2] == NA && _board[0][1] == NA &&
+				!is_square_threatened(0, 4, WHITE) && !is_square_threatened(0, 5, WHITE))
+			{
+				moves.push_back(Move(0, 4, 0, 1, NA));
+			}
         }
     }
 
@@ -262,8 +257,6 @@ public:
 		return MinimaxValue(best_value, best_move);
 	}
 
-
-
 	// Laskee materiaalitasapainon (valkean nappuloiden arvo - mustan nappuloiden arvo).
 	// Nappuloiden arvot:
 	//
@@ -291,7 +284,6 @@ public:
 			}
 		return value;
 	}
-
 
 	// Palauttaa valkean ja mustan (raaka)siirtojen lukum‰‰rien erotuksen.
 	float mobility() const

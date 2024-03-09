@@ -16,9 +16,11 @@ int main() {
     vector<Position> history;
 
     /*position.clear();
-    position._board[7][4] = wK;
-    position._board[7][0] = wR;
-    position._board[7][7] = wR;*/
+    position._board[0][4] = bK;
+    position._board[0][0] = bR;
+    position._board[0][7] = bR;
+    position._board[0][5] = bP;
+    position._board[0][3] = bP;*/
 
     enum PlayerType { HUMAN, COMPUTER };
 
@@ -32,7 +34,8 @@ int main() {
     blackPlayer = (choice == L"h" || choice == L"H") ? HUMAN : COMPUTER;
 
     bool canPrint = true;
-    while (true) {
+    bool canMove = true;
+    while (canMove) {
         moves.clear();
         position.give_moves(moves);
 
@@ -65,11 +68,17 @@ int main() {
                 canMove = false;
                 wcout << "Valid moves:" << endl;
                 int moveNumber = 1;
+                int movesAvailable = 0;
                 for (const Move& m : moves) {
                     wcout << moveNumber << ". ";
                     m.print();
                     wcout << endl;
                     moveNumber++;
+                    movesAvailable++;
+                }
+                if (movesAvailable == 0)
+                {
+                    wcout << "Check Mate! " << position._turn << " loses.";
                 }
             }
             else if (input == L"undo") {

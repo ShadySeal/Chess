@@ -296,22 +296,28 @@ void Position::make_move(const Move& m)
 
     if (piece == wK && m._start_row == 7 && m._start_col == 4 && m._dest_row == 7 && m._dest_col == 6 )
     {
-        if (_board[7][7] == wR)
-        {
-            _board[7][7] = NA;
-            _board[7][5] = wR;
-        }
-        else if (_board[7][0] == wR)
-        {
-            _board[7][7] = NA;
-            _board[7][2] = wR;
-        }
-        
+        _board[7][7] = NA;
+        _board[7][5] = wR;
     }
     else if (piece == bK && m._start_row == 0 && m._start_col == 4 && m._dest_row == 0 && m._dest_col == 6)
     {
         _board[0][7] = NA;
         _board[0][5] = bR;
+    }
+
+    // Check for long castling for white
+    if (piece == wK && m._start_row == 7 && m._start_col == 4 && m._dest_row == 7 && m._dest_col == 1)
+    {
+        // Move the rook from column A to column D
+        _board[7][0] = NA;
+        _board[7][2] = wR;
+    }
+    // Check for long castling for black
+    else if (piece == bK && m._start_row == 0 && m._start_col == 4 && m._dest_row == 0 && m._dest_col == 1)
+    {
+        // Move the rook from column H to column F
+        _board[0][0] = NA;
+        _board[0][2] = bR;
     }
 
     switch (piece)
@@ -326,16 +332,23 @@ void Position::make_move(const Move& m)
         break;
     }
 
-    if (m._start_row == 7 || m._start_col == 7 || m._dest_row == 7 || m._dest_col == 7)
+    if (m._start_row == 7 && m._start_col == 7 || m._dest_row == 7 && m._dest_col == 7)
     {
         _white_short_castling_allowed = false;
     }
-    else if (m._start_row == 0 || m._start_col == 0 || m._dest_row == 0 || m._dest_col == 0)
+    else if (m._start_row == 0 && m._start_col == 7 || m._dest_row == 0 && m._dest_col == 7)
     {
         _black_short_castling_allowed = false;
     }
 
-    
+    if (m._start_row == 7 && m._start_col == 0 || m._dest_row == 7 && m._dest_col == 0)
+    {
+        _white_long_castling_allowed = false;
+    }
+    else if (m._start_row == 0 && m._start_col == 0 || m._dest_row == 0 && m._dest_col == 0)
+    {
+        _black_long_castling_allowed = false;
+    }
 
     if (isPawn && abs(m._start_row - m._dest_row) == 2)
     {
