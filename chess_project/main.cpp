@@ -34,8 +34,7 @@ int main() {
     blackPlayer = (choice == L"h" || choice == L"H") ? HUMAN : COMPUTER;
 
     bool canPrint = true;
-    bool canMove = true;
-    while (canMove) {
+    while (true) {
         moves.clear();
         position.give_moves(moves);
 
@@ -47,7 +46,22 @@ int main() {
             }
             else if (position._turn == BLACK) {
                 wcout << "Turn: Black" << endl;
+            }   
+        }
+
+        // Ends the game when no legal moves left.
+        if (moves.empty())
+        {
+            if (position._turn == BLACK)
+            {
+                wcout << "Check Mate! White wins.";
             }
+            else
+            {
+                wcout << "Check Mate! Black wins.";
+            }
+            
+            break;
         }
 
         if ((position._turn == WHITE && whitePlayer == HUMAN) ||
@@ -68,17 +82,11 @@ int main() {
                 canMove = false;
                 wcout << "Valid moves:" << endl;
                 int moveNumber = 1;
-                int movesAvailable = 0;
                 for (const Move& m : moves) {
                     wcout << moveNumber << ". ";
                     m.print();
                     wcout << endl;
                     moveNumber++;
-                    movesAvailable++;
-                }
-                if (movesAvailable == 0)
-                {
-                    wcout << "Check Mate! " << position._turn << " loses.";
                 }
             }
             else if (input == L"undo") {
