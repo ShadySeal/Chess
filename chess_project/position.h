@@ -266,6 +266,7 @@ public:
 	// torni		5
 	// daami		9
 	//
+
 	float material() const
 	{
 		// Liitet‰‰n nappulatyyppeihin niiden arvot.
@@ -280,10 +281,32 @@ public:
 			for (int col = 0; col < 8; ++col)
 			{
 				int piece = _board[row][col];
-				value += piece_values[piece];
+				int square_value = 0;
+
+				if (piece == wP)
+				{
+					square_value += white_pawn_table[row * 8 + col];
+				}
+				else if (piece == bP)
+				{
+					square_value -= black_pawn_table[row * 8 + col];
+				}
+
+				if (piece == wR)
+				{
+					square_value += white_pawn_table[row * 8 + col];
+				}
+				else if (piece == bR)
+				{
+					square_value -= black_pawn_table[row * 8 + col];
+				}
+
+				value += piece_values[piece] + square_value;
 			}
 		return value;
 	}
+
+
 
 	// Palauttaa valkean ja mustan (raaka)siirtojen lukum‰‰rien erotuksen.
 	float mobility() const
@@ -318,4 +341,26 @@ public:
     bool _black_long_castling_allowed = true;
 
     int double_step = -1;
+
+	float white_pawn_table[64] = {
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f,
+		1.0f, 1.0f, 2.0f, 3.0f, 3.0f, 2.0f, 1.0f, 1.0f,
+		0.5f, 0.5f, 1.0f, 2.5f, 2.5f, 1.0f, 0.5f, 0.5f,
+		0.0f, 0.0f, 0.0f, 2.0f, 2.0f, 0.0f, 0.0f, 0.0f,
+		0.5f, -0.5f, -1.0f, 0.0f, 0.0f, -1.0f, -0.5f, 0.5f,
+		0.5f, 1.0f, 1.0f, -2.0f, -2.0f, 1.0f, 1.0f, 0.5f,
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f
+	};
+
+	float black_pawn_table[64] = {
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		0.5f, 1.0f, 1.0f, -2.0f, -2.0f, 1.0f, 1.0f, 0.5f,
+		0.5f, -0.5f, -1.0f, 0.0f, 0.0f, -1.0f, -0.5f, 0.5f,
+		0.0f, 0.0f, 0.0f, 2.0f, 2.0f, 0.0f, 0.0f, 0.0f,
+		0.5f, 0.5f, 1.0f, 2.5f, 2.5f, 1.0f, 0.5f, 0.5f,
+		1.0f, 1.0f, 2.0f, 3.0f, 3.0f, 2.0f, 1.0f, 1.0f,
+		5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f
+	};
 };

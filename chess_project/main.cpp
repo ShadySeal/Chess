@@ -20,7 +20,18 @@ int main() {
     position._board[0][0] = bR;
     position._board[0][7] = bR;
     position._board[0][5] = bP;
-    position._board[0][3] = bP;*/
+    position._board[0][3] = bP;
+    position._board[7][4] = wK;
+    position._board[7][0] = wR;
+    position._board[7][7] = wR;
+    position._board[7][5] = wP;
+    position._board[7][3] = wP;*/
+
+    /*position._board[0][5] = NA;
+    position._board[0][3] = NA;
+    position._board[0][6] = NA;
+    position._board[0][2] = NA;
+    position._board[0][1] = NA;*/
 
     enum PlayerType { HUMAN, COMPUTER };
 
