@@ -15,17 +15,17 @@ int main() {
     vector<Move> moves;
     vector<Position> history;
 
-    /*position.clear();
+    position.clear();
     position._board[0][4] = bK;
-    position._board[0][0] = bR;
-    position._board[0][7] = bR;
-    position._board[1][7] = bP;
-    position._board[1][0] = bP;
+    /*position._board[0][0] = bR;
+    position._board[0][7] = bR;*/
+    position._board[6][7] = bP;
+    position._board[6][0] = bP;
     position._board[7][4] = wK;
-    position._board[7][0] = wR;
-    position._board[7][7] = wR;
+    /*position._board[7][0] = wR;
+    position._board[7][7] = wR;*/
     position._board[7][5] = wP;
-    position._board[7][3] = wP;*/
+    position._board[7][3] = wP;
 
     /*position._board[7][5] = NA;
     position._board[7][3] = NA;

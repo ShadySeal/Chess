@@ -151,7 +151,7 @@ public:
 	// Funktiota kutsutaan, kun asemassa ei ole en‰‰ yht‰‰n laillista
 	// siirtoa (anna_siirrot on palattanyt tyhj‰n siirtovektorin).
 	//
-	float score_end_results() const
+	float score_end_results(int depth) const
 	{
 		if (_turn == WHITE)
 		{
@@ -161,9 +161,9 @@ public:
 
 			// Onko valkean kuningas uhattu?
 			if (is_square_threatened(row, col, BLACK))
-				return -1000000; // musta on tehnyt matin
+				return -1000000 + depth; // musta on tehnyt matin
 			else
-				return 0; // patti
+				return 0 + depth; // patti
 		}
 		else
 		{
@@ -175,9 +175,9 @@ public:
 
 			// Onko mustan kuningas uhattu?
 			if (is_square_threatened(row, col, WHITE))
-				return 1000000; // musta on tehnyt matin
+				return 1000000 - depth; // musta on tehnyt matin
 			else
-				return 0; // patti
+				return 0 - depth; // patti
 		}
 	}
 
@@ -213,7 +213,7 @@ public:
 		{
 			// Rekursion kantatapaus 1:
 			// peli on p‰‰ttynyt (ei yht‰‰n laillista siirtoa).
-			return MinimaxValue(score_end_results(), Move());
+			return MinimaxValue(score_end_results(depth), Move());
 		}
 
 		if (depth == 0)

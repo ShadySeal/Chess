@@ -9,11 +9,6 @@ Move::Move(const std::wstring& s)
     _dest_col = s[2] - 'a';
     _dest_row = '8' - s[3];
 
-    // tarkista, onko s:n pituus 5
-    // jos on, aseta _promoted_piece
-    // arvo s[4]:n perusteella:
-    // wQ, wR, ...
-
     if (s.size() == 5)
     {
         if (_dest_row == 0)
