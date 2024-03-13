@@ -306,18 +306,18 @@ void Position::make_move(const Move& m)
     }
 
     // Check for long castling for white
-    if (piece == wK && m._start_row == 7 && m._start_col == 4 && m._dest_row == 7 && m._dest_col == 1)
+    if (piece == wK && m._start_row == 7 && m._start_col == 4 && m._dest_row == 7 && m._dest_col == 2)
     {
         // Move the rook from column A to column D
         _board[7][0] = NA;
-        _board[7][2] = wR;
+        _board[7][3] = wR;
     }
     // Check for long castling for black
-    else if (piece == bK && m._start_row == 0 && m._start_col == 4 && m._dest_row == 0 && m._dest_col == 1)
+    else if (piece == bK && m._start_row == 0 && m._start_col == 4 && m._dest_row == 0 && m._dest_col == 2)
     {
         // Move the rook from column H to column F
         _board[0][0] = NA;
-        _board[0][2] = bR;
+        _board[0][3] = bR;
     }
 
     switch (piece)
